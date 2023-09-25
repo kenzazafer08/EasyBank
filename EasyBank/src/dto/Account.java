@@ -4,6 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 public abstract class Account {
+
+    protected String number;
+    protected double sold;
+    protected Date creationDate;
+    protected State state;
+    protected Client client;
+    protected Employee employee;
+    protected List<Operation> operationsList;
     public Account() {
     }
 
@@ -17,13 +25,7 @@ public abstract class Account {
         this.operationsList = operationsList;
     }
 
-    private String number;
-    private double sold;
-    private Date creationDate;
-    private State state;
-    private Client client;
-    private Employee employee;
-    private List<Operation> operationsList;
+
     public String getNumber() {
         return number;
     }

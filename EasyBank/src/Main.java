@@ -1,5 +1,8 @@
+import Implementation.EmployeeDAO;
+import dto.Employee;
 import helpers.DBconnection;
 import helpers.helper;
+import interfaces.EmployeeI;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -8,6 +11,9 @@ public class Main {
     public static void main(String[] args) {
         DBconnection dbConnection = DBconnection.getInstance();
         Scanner scanner = new Scanner(System.in);
+
+        Employee employee = new Employee();
+        EmployeeI employeeDAO = new EmployeeDAO(dbConnection);
 
         while (true) {
             System.out.println("Choose an option:");
@@ -29,14 +35,44 @@ public class Main {
 
             switch (choice) {
                 case 1:
-
+                System.out.println("Add an employee :");
+                System.out.println("Enter the number of the employee :");
+                employee.setNumber(scanner.nextLine());
+                System.out.println("Enter the first name of the employee :");
+                employee.setFirstName(scanner.nextLine());
+                System.out.println("Enter the last name of the employee :");
+                employee.setLastName(scanner.nextLine());
+                System.out.println("Enter the phone number of the employee :");
+                employee.setPhone(scanner.nextLine());
+                System.out.println("Enter the email of the employee :");
+                employee.setEmail(scanner.nextLine());
+                System.out.println("Enter the address of the employee :");
+                employee.setAddress(scanner.nextLine());
+                if(employeeDAO.add(employee) == null){
+                    System.out.println("Something went wrong try again !");
+                }else{
+                    System.out.println("Employee inserted successfully");
+                }
                     break;
 
                 case 2:
 
+
                     break;
                 case 3:
-
+                    System.out.println("Search for an employee :");
+                    System.out.println("Enter the number of the employee :");
+                    employee = employeeDAO.searchByMatricul(scanner.nextLine());
+                    if(employee == null){
+                        System.out.println("No employee found !");
+                    }else{
+                        System.out.println("Employee " +employee.getNumber() +":");
+                        System.out.println("First Name : " +employee.getFirstName());
+                        System.out.println("Last Name : " +employee.getLastName());
+                        System.out.println("Phone number : "+employee.getPhone());
+                        System.out.println("Email : "+employee.getEmail());
+                        System.out.println("Address : "+employee.getAddress());
+                    }
                     break;
                 case 4:
 

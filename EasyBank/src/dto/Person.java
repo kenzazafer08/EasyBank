@@ -4,6 +4,11 @@ import java.util.Date;
 
 public abstract class Person {
 
+    protected String firstName;
+    protected String lastName;
+    protected Date birthDate;
+    protected String phone;
+    protected String address;
     public Person() {
     }
 
@@ -15,11 +20,6 @@ public abstract class Person {
         this.address = address;
     }
 
-    private String firstName;
-    private String lastName;
-    private Date birthDate;
-    private String phone;
-    private String address;
 
     public String getFirstName() {
         return firstName;

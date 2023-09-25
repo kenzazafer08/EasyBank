@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface EmployeeI {
     Employee add(Employee employee);
-    List<Employee> searchByMatricul();
+    Employee searchByMatricul(String matriculationNumber);
     boolean delete(int id);
     List<Employee> showList();
     List<Employee> searchByDateR();

@@ -8,12 +8,11 @@ public class Employee extends Person {
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, Date birthDate, String phone, String address, String number, Date recruitementDate, String email, String mission, List<Account> createdAccounts, List<Operation> Operations, List<Affectation> affectationList) {
+    public Employee(String firstName, String lastName, Date birthDate, String phone, String address, String number, Date recruitementDate, String email, List<Account> createdAccounts, List<Operation> Operations, List<Affectation> affectationList) {
         super(firstName, lastName, birthDate, phone, address);
         this.number = number;
         this.recruitementDate = recruitementDate;
         this.email = email;
-        this.mission = mission;
         this.createdAccounts = createdAccounts;
         this.Operations = Operations;
         this.affectationList = affectationList;
@@ -22,7 +21,6 @@ public class Employee extends Person {
     private String number;
     private Date recruitementDate;
     private String email;
-    private String mission;
     private List<Account> createdAccounts;
     private List<Operation> Operations;
     private List<Affectation> affectationList;
@@ -48,14 +46,6 @@ public class Employee extends Person {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getMission() {
-        return mission;
-    }
-
-    public void setMission(String mission) {
-        this.mission = mission;
     }
 
     public List<Account> getCreatedAccounts() {
