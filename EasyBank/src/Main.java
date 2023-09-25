@@ -101,7 +101,18 @@ public class Main {
 
                     break;
                 case 6:
-
+                    System.out.println("Search for a client :");
+                    System.out.println("Enter the code of the client :");
+                    client = clientDAO.searchByCode(scanner.nextLine());
+                    if(client == null){
+                        System.out.println("No client found !");
+                    }else{
+                        System.out.println("Client " +client.getCode() +":");
+                        System.out.println("First Name : " +client.getFirstName());
+                        System.out.println("Last Name : " +client.getLastName());
+                        System.out.println("Phone number : "+client.getPhone());
+                        System.out.println("Address : "+client.getAddress());
+                    }
                     break;
                 case 7:
                     // Borrow a book

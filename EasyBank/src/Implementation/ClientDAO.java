@@ -65,7 +65,28 @@ public class ClientDAO implements ClientI {
     }
 
     @Override
-    public List<Client> searchByCode(String code) {
+    public Client searchByCode(String code) {
+        String sql = "SELECT c.*, p.* FROM client c " +
+                "INNER JOIN person p ON c.person_id = p.id " +
+                "WHERE c.code = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, code);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    Client client = new Client();
+                    client.setCode(resultSet.getString("code"));
+                    client.setFirstName(resultSet.getString("first_name"));
+                    client.setLastName(resultSet.getString("last_name"));
+                    client.setPhone(resultSet.getString("phone"));
+                    client.setAddress(resultSet.getString("address"));
+                    return client;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
