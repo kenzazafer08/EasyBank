@@ -3,7 +3,7 @@ package dto;
 import java.util.Date;
 import java.util.List;
 
-public abstract class Account {
+public class Account {
 
     protected String number;
     protected double sold;

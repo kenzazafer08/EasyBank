@@ -5,8 +5,8 @@ import dto.CurrentAccount;
 
 import java.util.List;
 
-public interface AccountI {
-    Account add(Account account);
+public interface CurrentAccountI {
+    CurrentAccount add(CurrentAccount account);
     List<Account> searchByClient();
     boolean delete(int id);
     Account updateStatus();

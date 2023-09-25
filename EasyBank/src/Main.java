@@ -1,11 +1,9 @@
-import Implementation.ClientDAO;
-import Implementation.EmployeeDAO;
-import dto.Client;
-import dto.Employee;
+import Implementation.*;
+import dto.*;
 import helpers.DBconnection;
 import helpers.helper;
 import interfaces.ClientI;
-import interfaces.EmployeeI;
+import interfaces.*;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -20,6 +18,15 @@ public class Main {
 
         Client client = new Client();
         ClientI clientDAO = new ClientDAO(dbConnection);
+
+        Account account = new Account();
+        AccountI accountDAO = new AccountDAO(dbConnection);
+
+        SavingAccount savingAccount = new SavingAccount();
+        SavingAccountI savingAccountDAO = new SavingAcountDAO(dbConnection);
+
+        CurrentAccount currentAccount = new CurrentAccount();
+        CurrentAccountI currentAccountDAO = new CurrentAccountDAO(dbConnection);
 
         while (true) {
             System.out.println("Choose an option:");
@@ -41,24 +48,24 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                System.out.println("Add an employee :");
-                System.out.println("Enter the number of the employee :");
-                employee.setNumber(scanner.nextLine());
-                System.out.println("Enter the first name of the employee :");
-                employee.setFirstName(scanner.nextLine());
-                System.out.println("Enter the last name of the employee :");
-                employee.setLastName(scanner.nextLine());
-                System.out.println("Enter the phone number of the employee :");
-                employee.setPhone(scanner.nextLine());
-                System.out.println("Enter the email of the employee :");
-                employee.setEmail(scanner.nextLine());
-                System.out.println("Enter the address of the employee :");
-                employee.setAddress(scanner.nextLine());
-                if(employeeDAO.add(employee) == null){
-                    System.out.println("Something went wrong try again !");
-                }else{
-                    System.out.println("Employee inserted successfully");
-                }
+                    System.out.println("Add an employee :");
+                    System.out.println("Enter the number of the employee :");
+                    employee.setNumber(scanner.nextLine());
+                    System.out.println("Enter the first name of the employee :");
+                    employee.setFirstName(scanner.nextLine());
+                    System.out.println("Enter the last name of the employee :");
+                    employee.setLastName(scanner.nextLine());
+                    System.out.println("Enter the phone number of the employee :");
+                    employee.setPhone(scanner.nextLine());
+                    System.out.println("Enter the email of the employee :");
+                    employee.setEmail(scanner.nextLine());
+                    System.out.println("Enter the address of the employee :");
+                    employee.setAddress(scanner.nextLine());
+                    if(employeeDAO.add(employee) == null){
+                        System.out.println("Something went wrong try again !");
+                    }else{
+                        System.out.println("Employee inserted successfully");
+                    }
                     break;
 
                 case 2:
@@ -115,11 +122,56 @@ public class Main {
                     }
                     break;
                 case 7:
-                    // Borrow a book
-
+                    System.out.println("Create an account :");
+                    System.out.println("Enter the client code :");
+                    client.setCode(scanner.nextLine());
+                    account.setClient(client);
+                    System.out.println("Enter the employee number :");
+                    employee.setNumber(scanner.nextLine());
+                    account.setEmployee(employee);
+                    System.out.println("Enter the account solde : ");
+                    account.setSold(scanner.nextDouble());
+                    System.out.println("What type of account you wanna create :");
+                    System.out.println("1. Current account ");
+                    System.out.println("2. Saving account ");
+                    int c = helper.getInputAsInt(scanner);
+                    switch (c){
+                        case 1 :
+                            account = accountDAO.add(account);
+                            if(account == null){
+                                System.out.println("Something went wrong !");
+                            }else{
+                                currentAccount.setNumber(account.getNumber());
+                                System.out.println("Enter the account overdraft :");
+                                currentAccount.setOverdraft(scanner.nextDouble());
+                                if(currentAccountDAO.add(currentAccount) == null){
+                                    System.out.println("Something went wrong !");
+                                }else{
+                                    System.out.println("Your current account created successfully here is you account number : "+account.getNumber());
+                                }
+                            }
+                            break;
+                        case 2 :
+                            account = accountDAO.add(account);
+                            if(account == null){
+                                System.out.println("Something went wrong !");
+                            }else{
+                                savingAccount.setNumber(account.getNumber());
+                                System.out.println("Enter the account interest rate :");
+                                savingAccount.setInterestRate(scanner.nextDouble());
+                                if(savingAccountDAO.add(savingAccount) == null){
+                                    System.out.println("Something went wrong !");
+                                }else{
+                                    System.out.println("Your saving account created successfully here is you account number : "+account.getNumber());
+                                }
+                            }
+                            break;
+                        default:
+                            System.out.println("Invalid choice. Please select a valid option.");
+                            break;
+                    }
                     break;
                 case 8:
-                    // Return a book
 
                     break;
 

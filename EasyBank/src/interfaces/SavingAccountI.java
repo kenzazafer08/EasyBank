@@ -1,12 +1,12 @@
 package interfaces;
 
 import dto.Account;
-import dto.CurrentAccount;
+import dto.SavingAccount;
 
 import java.util.List;
 
-public interface AccountI {
-    Account add(Account account);
+public interface SavingAccountI {
+    SavingAccount add(SavingAccount account);
     List<Account> searchByClient();
     boolean delete(int id);
     Account updateStatus();
