@@ -1,7 +1,10 @@
+import Implementation.ClientDAO;
 import Implementation.EmployeeDAO;
+import dto.Client;
 import dto.Employee;
 import helpers.DBconnection;
 import helpers.helper;
+import interfaces.ClientI;
 import interfaces.EmployeeI;
 
 import java.sql.SQLException;
@@ -14,6 +17,9 @@ public class Main {
 
         Employee employee = new Employee();
         EmployeeI employeeDAO = new EmployeeDAO(dbConnection);
+
+        Client client = new Client();
+        ClientI clientDAO = new ClientDAO(dbConnection);
 
         while (true) {
             System.out.println("Choose an option:");
@@ -75,7 +81,21 @@ public class Main {
                     }
                     break;
                 case 4:
-
+                    System.out.println("Create a client : ");
+                    System.out.println("Enter the client first name : ");
+                    client.setFirstName(scanner.nextLine());
+                    System.out.println("Enter the client  last name : ");
+                    client.setLastName(scanner.nextLine());
+                    System.out.println("Enter the client phone number : ");
+                    client.setPhone(scanner.nextLine());
+                    System.out.println("Enter the client address : ");
+                    client.setAddress(scanner.nextLine());
+                    client = clientDAO.add(client);
+                    if(client == null){
+                        System.out.println("Something went wrong !");
+                    }else{
+                        System.out.println("Client inserted successfully , client code : "+client.getCode());
+                    }
                     break;
                 case 5:
 

@@ -3,6 +3,13 @@ package dto;
 import java.util.Date;
 
 public class Affectation {
+
+    private Date startDate;
+    private Date endDate;
+    private Mission mission;
+    private Employee employee;
+
+
     public Affectation() {
     }
 
@@ -12,11 +19,6 @@ public class Affectation {
         this.mission = mission;
         this.employee = employee;
     }
-
-    private Date startDate;
-    private Date endDate;
-    private Mission mission;
-    private Employee employee;
 
 
     public Date getStartDate() {

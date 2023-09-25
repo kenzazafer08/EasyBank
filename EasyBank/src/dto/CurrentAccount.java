@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 public class CurrentAccount extends Account {
+
+    private double overdraft;
+
     public CurrentAccount() {
     }
 
@@ -12,7 +15,6 @@ public class CurrentAccount extends Account {
         this.overdraft = overdraft;
     }
 
-    private double overdraft;
 
     public double getOverdraft() {
         return overdraft;

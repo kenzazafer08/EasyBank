@@ -3,6 +3,13 @@ package dto;
 import java.util.Date;
 
 public class Operation {
+
+    private String number;
+    private Date creationDate;
+    private double amount;
+    private Type type;
+    private Account account;
+    private Employee employee;
     public Operation() {
     }
 
@@ -15,12 +22,7 @@ public class Operation {
         this.employee = employee;
     }
 
-    private String number;
-    private Date creationDate;
-    private double amount;
-    private Type type;
-    private Account account;
-    private Employee employee;
+
     public String getNumber() {
         return number;
     }

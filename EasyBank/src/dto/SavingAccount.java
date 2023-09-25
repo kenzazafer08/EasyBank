@@ -4,6 +4,9 @@ import java.util.Date;
 import java.util.List;
 
 public class SavingAccount extends Account {
+
+    private double interestRate;
+
     public SavingAccount() {
     }
 
@@ -11,8 +14,6 @@ public class SavingAccount extends Account {
         super(number, sold, creationDate, state, client, employee, operationList);
         this.interestRate = interestRate;
     }
-
-    private double interestRate;
 
     public double getInterestRate() {
         return interestRate;

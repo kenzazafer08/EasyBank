@@ -3,6 +3,11 @@ package dto;
 import java.util.List;
 
 public class Mission {
+
+    private String code;
+    private String name;
+    private String description;
+    private List<Affectation> affectationList;
     public Mission() {
     }
 
@@ -13,10 +18,7 @@ public class Mission {
         this.affectationList = affectationList;
     }
 
-    private String code;
-    private String name;
-    private String description;
-    private List<Affectation> affectationList;
+
     public String getCode() {
         return code;
     }

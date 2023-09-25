@@ -4,12 +4,17 @@ import java.util.Date;
 import java.util.List;
 
 public class Employee extends Person {
-
+    private String number;
+    private Date recruitementDate;
+    private String email;
+    private List<Account> createdAccounts;
+    private List<Operation> Operations;
+    private List<Affectation> affectationList;
     public Employee() {
     }
 
     public Employee(String firstName, String lastName, Date birthDate, String phone, String address, String number, Date recruitementDate, String email, List<Account> createdAccounts, List<Operation> Operations, List<Affectation> affectationList) {
-        super(firstName, lastName, birthDate, phone, address);
+        super(firstName, lastName, phone, address);
         this.number = number;
         this.recruitementDate = recruitementDate;
         this.email = email;
@@ -18,12 +23,7 @@ public class Employee extends Person {
         this.affectationList = affectationList;
     }
 
-    private String number;
-    private Date recruitementDate;
-    private String email;
-    private List<Account> createdAccounts;
-    private List<Operation> Operations;
-    private List<Affectation> affectationList;
+
     public String getNumber() {
         return number;
     }
