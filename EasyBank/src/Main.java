@@ -40,8 +40,10 @@ public class Main {
             System.out.println("7. Create an account");
             System.out.println("8. Delete an account");
             System.out.println("9. Search for an account");
-            System.out.println("10. Add mission");
-            System.out.println("11. Delete mission");
+            System.out.println("10. Add an operation");
+            System.out.println("11. Search for an operation");
+            System.out.println("12. Add mission");
+            System.out.println("13. Delete mission");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -206,6 +208,12 @@ public class Main {
                     break;
 
                 case 11:
+                    break;
+
+                case 12:
+                    break;
+
+                case 13:
                     break;
 
                 case 0:
