@@ -3,13 +3,12 @@ package Implementation;
 import dto.Account;
 import dto.SavingAccount;
 import helpers.DBconnection;
-import interfaces.SavingAccountI;
+import interfaces.AccountI;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
-public class SavingAcountDAO implements SavingAccountI {
+public class SavingAcountDAO implements AccountI<SavingAccount> {
     private DBconnection dbConnection;
 
     public SavingAcountDAO(DBconnection dbConnection) {
@@ -37,8 +36,9 @@ public class SavingAcountDAO implements SavingAccountI {
         return null;
     }
 
+
     @Override
-    public List<Account> searchByClient() {
+    public List<SavingAccount> searchByClient() {
         return null;
     }
 
@@ -48,32 +48,32 @@ public class SavingAcountDAO implements SavingAccountI {
     }
 
     @Override
-    public Account updateStatus() {
+    public SavingAccount updateStatus() {
         return null;
     }
 
     @Override
-    public List<Account> filterByStatus() {
+    public List<SavingAccount> filterByStatus() {
         return null;
     }
 
     @Override
-    public List<Account> showList() {
+    public List<SavingAccount> showList() {
         return null;
     }
 
     @Override
-    public List<Account> filterByDCreation() {
+    public List<SavingAccount> filterByDCreation() {
         return null;
     }
 
     @Override
-    public Account update() {
+    public SavingAccount update() {
         return null;
     }
 
     @Override
-    public List<Account> searchByOperationN() {
+    public List<SavingAccount> searchByOperationN() {
         return null;
     }
 }

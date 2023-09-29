@@ -2,14 +2,13 @@ package Implementation;
 
 import dto.Account;
 import helpers.DBconnection;
-import interfaces.CurrentAccountI;
 import dto.CurrentAccount;
+import interfaces.AccountI;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.List;
 
-public class CurrentAccountDAO implements CurrentAccountI {
+public class CurrentAccountDAO implements AccountI<CurrentAccount> {
     private DBconnection dbConnection;
 
     public CurrentAccountDAO(DBconnection dbConnection) {
@@ -40,7 +39,7 @@ public class CurrentAccountDAO implements CurrentAccountI {
     }
 
     @Override
-    public List<Account> searchByClient() {
+    public List<CurrentAccount> searchByClient() {
         return null;
     }
 
@@ -50,32 +49,32 @@ public class CurrentAccountDAO implements CurrentAccountI {
     }
 
     @Override
-    public Account updateStatus() {
+    public CurrentAccount updateStatus() {
         return null;
     }
 
     @Override
-    public List<Account> filterByStatus() {
+    public List<CurrentAccount> filterByStatus() {
         return null;
     }
 
     @Override
-    public List<Account> showList() {
+    public List<CurrentAccount> showList() {
         return null;
     }
 
     @Override
-    public List<Account> filterByDCreation() {
+    public List<CurrentAccount> filterByDCreation() {
         return null;
     }
 
     @Override
-    public Account update() {
+    public CurrentAccount update() {
         return null;
     }
 
     @Override
-    public List<Account> searchByOperationN() {
+    public List<CurrentAccount> searchByOperationN() {
         return null;
     }
 }

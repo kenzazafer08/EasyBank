@@ -5,14 +5,14 @@ import dto.CurrentAccount;
 
 import java.util.List;
 
-public interface AccountI {
-    Account add(Account account);
-    List<Account> searchByClient();
+public interface AccountI<T extends Account> {
+    T add(T account);
+    List<T> searchByClient();
     boolean delete(int id);
-    Account updateStatus();
-    List<Account> filterByStatus();
-    List<Account> showList();
-    List<Account> filterByDCreation();
-    Account update();
-    List<Account> searchByOperationN();
+    T updateStatus();
+    List<T> filterByStatus();
+    List<T> showList();
+    List<T> filterByDCreation();
+    T update();
+    List<T> searchByOperationN();
 }

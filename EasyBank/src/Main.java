@@ -23,10 +23,10 @@ public class Main {
         AccountI accountDAO = new AccountDAO(dbConnection);
 
         SavingAccount savingAccount = new SavingAccount();
-        SavingAccountI savingAccountDAO = new SavingAcountDAO(dbConnection);
+        AccountI<SavingAccount> savingAccountDAO = new SavingAcountDAO(dbConnection);
 
         CurrentAccount currentAccount = new CurrentAccount();
-        CurrentAccountI currentAccountDAO = new CurrentAccountDAO(dbConnection);
+        AccountI<CurrentAccount> currentAccountDAO = new CurrentAccountDAO(dbConnection);
 
         while (true) {
             System.out.println("Choose an option:");

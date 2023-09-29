@@ -16,6 +16,9 @@ public class AccountDAO implements AccountI {
         this.dbConnection = dbConnection;
     }
 
+    public AccountDAO() {
+    }
+
     @Override
     public Account add(Account account) {
         Connection conn = dbConnection.getConnection();
