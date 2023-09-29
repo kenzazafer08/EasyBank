@@ -1,6 +1,7 @@
 package Implementation;
 
 import dto.Account;
+import dto.Client;
 import dto.SavingAccount;
 import helpers.DBconnection;
 import interfaces.AccountI;
@@ -38,7 +39,7 @@ public class SavingAcountDAO implements AccountI<SavingAccount> {
 
 
     @Override
-    public List<SavingAccount> searchByClient() {
+    public List<SavingAccount> searchByClient(Client client) {
         return null;
     }
 

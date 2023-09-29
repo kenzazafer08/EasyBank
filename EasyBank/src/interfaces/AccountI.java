@@ -1,13 +1,14 @@
 package interfaces;
 
 import dto.Account;
+import dto.Client;
 import dto.CurrentAccount;
 
 import java.util.List;
 
 public interface AccountI<T extends Account> {
     T add(T account);
-    List<T> searchByClient();
+    List<T> searchByClient(Client client);
     boolean delete(int id);
     T updateStatus();
     List<T> filterByStatus();

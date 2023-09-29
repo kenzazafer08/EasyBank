@@ -6,6 +6,7 @@ import interfaces.ClientI;
 import interfaces.*;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -176,6 +177,29 @@ public class Main {
                     break;
 
                 case 9:
+                    System.out.println("Search for an account by client :");
+                    System.out.println("Enter the client code :");
+                    client.setCode(scanner.nextLine());
+                    List<Account> clientAccounts = accountDAO.searchByClient(client);
+                    Client cl = clientDAO.searchByCode(client.getCode());
+                    System.out.println("Client "+ cl.getFirstName()+ " " + cl.getLastName()+" accounts:");
+                    System.out.println();
+                    for (Account a : clientAccounts) {
+                        System.out.println("Account Number: " + a.getNumber());
+                        System.out.println("Account Balance: " + a.getSold());
+                        System.out.println("Account manager: " + a.getEmployee().getFirstName() + " " + a.getEmployee().getLastName());
+                        if (a instanceof SavingAccount) {
+                            SavingAccount savingA = (SavingAccount) a;
+                            System.out.println("Account Type: Saving Account");
+                            System.out.println("Interest Rate: " + savingA.getInterestRate());
+                        } else if (a instanceof CurrentAccount) {
+                            CurrentAccount currentA = (CurrentAccount) a;
+                            System.out.println("Account Type: Current Account");
+                            System.out.println("Overdraft Limit: " + currentA.getOverdraft());
+                        }
+
+                        System.out.println();
+                    }
                     break;
 
                 case 10:

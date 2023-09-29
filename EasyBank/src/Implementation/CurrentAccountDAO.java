@@ -1,6 +1,7 @@
 package Implementation;
 
 import dto.Account;
+import dto.Client;
 import helpers.DBconnection;
 import dto.CurrentAccount;
 import interfaces.AccountI;
@@ -39,7 +40,7 @@ public class CurrentAccountDAO implements AccountI<CurrentAccount> {
     }
 
     @Override
-    public List<CurrentAccount> searchByClient() {
+    public List<CurrentAccount> searchByClient(Client client) {
         return null;
     }
 
