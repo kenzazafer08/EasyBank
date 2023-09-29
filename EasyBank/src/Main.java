@@ -39,7 +39,7 @@ public class Main {
             System.out.println("6. Search for a client");
             System.out.println("7. Create an account");
             System.out.println("8. Delete an account");
-            System.out.println("9. Search for an account");
+            System.out.println("9. Search for accounts by client");
             System.out.println("10. Add an operation");
             System.out.println("11. Search for an operation");
             System.out.println("12. Add mission");
@@ -72,8 +72,14 @@ public class Main {
                     break;
 
                 case 2:
-
-
+                    System.out.println("Add an employee :");
+                    System.out.println("Enter the number of the employee :");
+                    employee.setNumber(scanner.nextLine());
+                    if(!employeeDAO.delete(employee.getNumber())){
+                        System.out.println("Something went wrong try again !");
+                    }else{
+                        System.out.println("Employee deleted successfully");
+                    }
                     break;
                 case 3:
                     System.out.println("Search for an employee :");

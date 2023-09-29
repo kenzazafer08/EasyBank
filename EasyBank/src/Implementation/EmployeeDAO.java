@@ -67,7 +67,7 @@ public class EmployeeDAO implements EmployeeI {
     public Employee searchByMatricul(String matriculationNumber) {
         String sql = "SELECT e.*, p.* FROM employee e " +
                 "INNER JOIN person p ON e.person_id = p.id " +
-                "WHERE e.number = ?";
+                "WHERE e.number = ? AND e.deleted = FALSE";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -93,11 +93,30 @@ public class EmployeeDAO implements EmployeeI {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
-    }
+    public boolean delete(String id) {
+        String sql = "UPDATE employee SET deleted = ? WHERE number = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            // Create a PreparedStatement with the query
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-    @Override
+            // Set the "deleted" attribute to true (1)
+            preparedStatement.setBoolean(1, true);
+
+            // Set the employee ID in the query
+            preparedStatement.setString(2, id);
+
+            // Execute the query
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                return true; // Soft delete successful
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+        @Override
     public List<Employee> showList() {
         return null;
     }

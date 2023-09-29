@@ -8,7 +8,7 @@ import java.util.List;
 public interface EmployeeI {
     Employee add(Employee employee);
     Employee searchByMatricul(String matriculationNumber);
-    boolean delete(int id);
+    boolean delete(String id);
     List<Employee> showList();
     List<Employee> searchByDateR();
     Employee update();
