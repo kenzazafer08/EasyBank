@@ -85,7 +85,7 @@ public class Main {
                     System.out.println("Search for an employee :");
                     System.out.println("Enter the number of the employee :");
                     employee = employeeDAO.searchByMatricul(scanner.nextLine());
-                    if(employee == null){
+                    if(employee == null || employee.getDeleted()){
                         System.out.println("No employee found !");
                     }else{
                         System.out.println("Employee " +employee.getNumber() +":");
@@ -187,7 +187,13 @@ public class Main {
                     }
                     break;
                 case 8:
-
+                    System.out.println("Delete an account :");
+                    System.out.println("Enter the number of the account :");
+                    if(!accountDAO.delete(scanner.nextLine())){
+                        System.out.println("Something went wrong try again !");
+                    }else{
+                        System.out.println("Account deleted successfully");
+                    }
                     break;
 
                 case 9:

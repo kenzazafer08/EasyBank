@@ -67,7 +67,7 @@ public class EmployeeDAO implements EmployeeI {
     public Employee searchByMatricul(String matriculationNumber) {
         String sql = "SELECT e.*, p.* FROM employee e " +
                 "INNER JOIN person p ON e.person_id = p.id " +
-                "WHERE e.number = ? AND e.deleted = FALSE";
+                "WHERE e.number = ? ";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -81,6 +81,7 @@ public class EmployeeDAO implements EmployeeI {
                     employee.setPhone(resultSet.getString("phone"));
                     employee.setEmail(resultSet.getString("email"));
                     employee.setAddress(resultSet.getString("address"));
+                    employee.setDeleted(resultSet.getBoolean("deleted"));
                     // Set other employee attributes here
                     return employee;
                 }

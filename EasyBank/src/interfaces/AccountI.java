@@ -9,7 +9,7 @@ import java.util.List;
 public interface AccountI<T extends Account> {
     T add(T account);
     List<T> searchByClient(Client client);
-    boolean delete(int id);
+    boolean delete(String id);
     T updateStatus();
     List<T> filterByStatus();
     List<T> showList();

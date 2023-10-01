@@ -44,7 +44,7 @@ public class SavingAcountDAO implements AccountI<SavingAccount> {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(String id) {
         return false;
     }
 

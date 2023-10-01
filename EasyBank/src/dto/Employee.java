@@ -7,6 +7,7 @@ public class Employee extends Person {
     private String number;
     private Date recruitementDate;
     private String email;
+    private Boolean deleted;
     private List<Account> createdAccounts;
     private List<Operation> Operations;
     private List<Affectation> affectationList;
@@ -46,6 +47,14 @@ public class Employee extends Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public List<Account> getCreatedAccounts() {

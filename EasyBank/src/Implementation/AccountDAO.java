@@ -66,7 +66,7 @@ public class AccountDAO implements AccountI {
                         "LEFT JOIN currentaccount AS c ON a.number = c.account_number " +
                         "LEFT JOIN savingaccount AS s ON a.number = s.account_number " +
                         "WHERE " +
-                        "a.client_code = ?";
+                        "a.client_code = ? AND a.deleted = false";
 
                 try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                     preparedStatement.setString(1, client.getCode());
@@ -116,8 +116,28 @@ public class AccountDAO implements AccountI {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(String id) {
+        String sql = "UPDATE account SET deleted = ? WHERE number = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            // Create a PreparedStatement with the query
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            // Set the "deleted" attribute to true (1)
+            preparedStatement.setBoolean(1, true);
+
+            // Set the employee ID in the query
+            preparedStatement.setString(2, id);
+
+            // Execute the query
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                return true; // Soft delete successful
+            }
+            return false;
+            } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
