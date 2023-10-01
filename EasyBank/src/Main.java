@@ -28,6 +28,9 @@ public class Main {
         Operation operation = new Operation();
         OperationI operationDAO = new OperationDAO(dbConnection);
 
+        Mission mission = new Mission();
+        MissionI missionDAO = new MissionDAO(dbConnection);
+
         while (true) {
             System.out.println("Choose an option:");
             System.out.println("1. Add an Employee");
@@ -276,6 +279,17 @@ public class Main {
                     break;
 
                 case 13:
+                    System.out.println("Add mission");
+                    System.out.println("Mission name :");
+                    mission.setName(scanner.nextLine());
+                    System.out.println("Mission description :");
+                    mission.setDescription(scanner.nextLine());
+                    Mission addedMission = missionDAO.add(mission);
+                    if (addedMission != null) {
+                        System.out.println("Mission added successfully with code: " + addedMission.getCode());
+                    } else {
+                        System.out.println("Failed to add the mission.");
+                    }
                     break;
 
                 case 14:
