@@ -261,6 +261,18 @@ public class Main {
                     break;
 
                 case 12:
+                    System.out.println("Search operations by account number ");
+                    System.out.println("Enter the account number");
+                    List<Operation> operations = operationDAO.searchByNumber(scanner.nextLine());
+                    System.out.println("Operations List :");
+                    System.out.println();
+                    for (Operation o : operations) {
+                        System.out.println("Operation number : " + o.getNumber());
+                        System.out.println("Operation type : " + o.getType());
+                        System.out.println("Operation amount : " + o.getAmount());
+                        System.out.println("Date : "+o.getCreationDate());
+                        System.out.println("Employee : " + o.getEmployee().getFirstName() + " "+ o.getEmployee().getLastName());
+                    }
                     break;
 
                 case 13:

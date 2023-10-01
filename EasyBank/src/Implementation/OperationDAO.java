@@ -1,6 +1,7 @@
 package Implementation;
 
 import dto.Account;
+import dto.Employee;
 import dto.Operation;
 import helpers.DBconnection;
 import helpers.helper;
@@ -11,6 +12,7 @@ import java.sql.Connection;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 
 public class OperationDAO implements OperationI {
     private DBconnection dbConnection;
@@ -28,7 +30,7 @@ public class OperationDAO implements OperationI {
             AccountI accountDAO = new AccountDAO(dbConnection);
             Account account = accountDAO.getByNumber(operation.getAccount().getNumber());
 
-            if (account == null) {
+            if (account == null || account.getState() == Account.State.inactive) {
                 return null;
             }
 
@@ -82,8 +84,40 @@ public class OperationDAO implements OperationI {
 
 
     @Override
-    public List<Operation> searchByNumber() {
-        return null;
+    public List<Operation> searchByNumber(String number) {
+        List<Operation> accountOperations = new ArrayList<>();
+
+        try (Connection connection = dbConnection.getConnection()) {
+            String query = "SELECT * FROM operation WHERE account_number = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, number);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    String employeeNumber = resultSet.getString("employee_number");
+                    EmployeeDAO employeeDAO = new EmployeeDAO(dbConnection);
+                    Employee employee = employeeDAO.searchByMatricul(employeeNumber);
+
+                    Operation operation = new Operation();
+                    operation.setNumber(resultSet.getString("number"));
+                    operation.setCreationDate(resultSet.getDate("creation_date"));
+                    operation.setAmount(resultSet.getDouble("amount"));
+                    operation.setType(Operation.Type.valueOf(resultSet.getString("type")));
+                    operation.setEmployee(employee);
+                    // You can set other operation attributes here
+
+                    // Add the operation to the list
+                    accountOperations.add(operation);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+
+        return accountOperations;
     }
 
     @Override
