@@ -48,7 +48,27 @@ public class MissionDAO implements MissionI {
         return null; // Adding mission failed
     }
     @Override
-    public boolean delete(int id) {
+    public boolean delete(String id) {
+        Connection conn = dbConnection.getConnection();
+        try {
+            // Create an SQL UPDATE query to set the 'deleted' column to true
+            String updateMissionSQL = "UPDATE mission SET deleted = true WHERE code = ?";
+
+            try (PreparedStatement stmt = conn.prepareStatement(updateMissionSQL)) {
+                stmt.setString(1, id);
+
+                // Execute the update statement
+                int rowCount = stmt.executeUpdate();
+
+                if (rowCount > 0) {
+                    // The mission was successfully "soft" deleted
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any SQL errors here
+        }
         return false;
     }
 

@@ -293,6 +293,13 @@ public class Main {
                     break;
 
                 case 14:
+                    System.out.println("Delete a mission :");
+                    System.out.println("Enter the code of the mission :");
+                    if(!missionDAO.delete(scanner.nextLine())){
+                        System.out.println("Something went wrong try again !");
+                    }else{
+                        System.out.println("Mission deleted successfully");
+                    }
                     break;
 
                 case 0:

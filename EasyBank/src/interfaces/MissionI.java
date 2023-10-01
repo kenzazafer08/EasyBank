@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MissionI {
     Mission add(Mission mission);
-    boolean delete(int id);
+    boolean delete(String id);
     List<Mission> showList();
     List<Mission> missionHistory();
     List<Mission> missionStatistics();
