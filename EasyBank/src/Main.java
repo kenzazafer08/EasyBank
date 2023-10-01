@@ -251,6 +251,13 @@ public class Main {
                     break;
 
                 case 11:
+                    System.out.println("Delete an operation");
+                    System.out.println("Enter the number of the operation");
+                    if(operationDAO.delete(scanner.nextLine())){
+                        System.out.println("Your operation deleted successfully");
+                    }else{
+                        System.out.println("Something went wrong !");
+                    }
                     break;
 
                 case 12:

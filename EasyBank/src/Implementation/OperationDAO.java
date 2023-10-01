@@ -87,7 +87,27 @@ public class OperationDAO implements OperationI {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(String id) {
+        Connection conn = dbConnection.getConnection();
+        try {
+            // Create a SQL DELETE query to delete the operation by its ID
+            String deleteOperationSQL = "DELETE FROM operation WHERE number = ?";
+
+            try (PreparedStatement stmt = conn.prepareStatement(deleteOperationSQL)) {
+                stmt.setString(1, id);
+
+                // Execute the delete statement
+                int rowCount = stmt.executeUpdate();
+
+                // Check if any rows were deleted (rowCount > 0)
+                if (rowCount > 0) {
+                    return true; // Deletion successful
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle any SQL errors here
+        }
+        return false; // Deletion failed
     }
 }
