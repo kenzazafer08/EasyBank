@@ -14,6 +14,7 @@ public interface AccountI {
     List<Account> filterByStatus();
     List<Account> showList();
     List<Account> filterByDCreation();
-    Account update();
+    Account getByNumber(String accountNumber);
+    Account update(Account account);
     List<Account> searchByOperationN();
 }

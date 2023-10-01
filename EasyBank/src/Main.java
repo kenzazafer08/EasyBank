@@ -25,6 +25,9 @@ public class Main {
         SavingAccount savingAccount = new SavingAccount();
         CurrentAccount currentAccount = new CurrentAccount();
 
+        Operation operation = new Operation();
+        OperationI operationDAO = new OperationDAO(dbConnection);
+
         while (true) {
             System.out.println("Choose an option:");
             System.out.println("1. Add an Employee");
@@ -37,9 +40,10 @@ public class Main {
             System.out.println("8. Delete an account");
             System.out.println("9. Search for accounts by client");
             System.out.println("10. Add an operation");
-            System.out.println("11. Search for an operation");
-            System.out.println("12. Add mission");
-            System.out.println("13. Delete mission");
+            System.out.println("11. Delete an operation");
+            System.out.println("12. Search for an operation");
+            System.out.println("13. Add mission");
+            System.out.println("14. Delete mission");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -216,6 +220,34 @@ public class Main {
                     break;
 
                 case 10:
+                    System.out.println("Pass an operation :");
+                    System.out.println("Enter the account number");
+                    account.setNumber(scanner.nextLine());
+                    operation.setAccount(account);
+                    System.out.println("Enter the employee number");
+                    employee.setNumber(scanner.nextLine());
+                    operation.setEmployee(employee);
+                    System.out.println("Enter the amount");
+                    operation.setAmount(scanner.nextDouble());
+                    int op = 0;
+                    while(op !=1 && op!=2){
+                        System.out.println("What type of operation you wanna create :");
+                        System.out.println("1. Payment ");
+                        System.out.println("2. Withdraw ");
+                        op = helper.getInputAsInt(scanner);
+                        if(op == 1) {
+                            operation.setType(Operation.Type.payment);
+                        }else if(op == 2){
+                            operation.setType(Operation.Type.withdrawal);
+                        }else{
+                            System.out.println("Enter a valid choice !");
+                        }
+                    }
+                    if(operationDAO.add(operation) == null){
+                        System.out.println("Something went wrong !");
+                    }else{
+                        System.out.println("Your operation passed successfully");
+                    }
                     break;
 
                 case 11:
@@ -225,6 +257,9 @@ public class Main {
                     break;
 
                 case 13:
+                    break;
+
+                case 14:
                     break;
 
                 case 0:
