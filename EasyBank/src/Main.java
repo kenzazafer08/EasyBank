@@ -72,7 +72,7 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("Add an employee :");
+                    System.out.println("Delete an employee :");
                     System.out.println("Enter the number of the employee :");
                     employee.setNumber(scanner.nextLine());
                     if(!employeeDAO.delete(employee.getNumber())){
@@ -114,7 +114,13 @@ public class Main {
                     }
                     break;
                 case 5:
-
+                    System.out.println("Delete a client :");
+                    System.out.println("Enter the number of the client :");
+                    if(!clientDAO.delete(scanner.nextLine())){
+                        System.out.println("Something went wrong try again !");
+                    }else{
+                        System.out.println("Client deleted successfully");
+                    }
                     break;
                 case 6:
                     System.out.println("Search for a client :");

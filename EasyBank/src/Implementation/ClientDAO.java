@@ -68,7 +68,7 @@ public class ClientDAO implements ClientI {
     public Client searchByCode(String code) {
         String sql = "SELECT c.*, p.* FROM client c " +
                 "INNER JOIN person p ON c.person_id = p.id " +
-                "WHERE c.code = ?";
+                "WHERE c.code = ? And deleted = false";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -91,9 +91,28 @@ public class ClientDAO implements ClientI {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
-    }
+    public boolean delete(String id) {
+        String sql = "UPDATE client SET deleted = ? WHERE code = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            // Create a PreparedStatement with the query
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            // Set the "deleted" attribute to true (1)
+            preparedStatement.setBoolean(1, true);
+
+            // Set the employee ID in the query
+            preparedStatement.setString(2, id);
+
+            // Execute the query
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                return true; // Soft delete successful
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }    }
 
     @Override
     public List<Client> showList() {
