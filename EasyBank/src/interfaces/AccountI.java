@@ -6,14 +6,14 @@ import dto.CurrentAccount;
 
 import java.util.List;
 
-public interface AccountI<T extends Account> {
-    T add(T account);
-    List<T> searchByClient(Client client);
+public interface AccountI {
+    Account add(Account account);
+    List<Account> searchByClient(Client client);
     boolean delete(String id);
-    T updateStatus();
-    List<T> filterByStatus();
-    List<T> showList();
-    List<T> filterByDCreation();
-    T update();
-    List<T> searchByOperationN();
+    Account updateStatus();
+    List<Account> filterByStatus();
+    List<Account> showList();
+    List<Account> filterByDCreation();
+    Account update();
+    List<Account> searchByOperationN();
 }

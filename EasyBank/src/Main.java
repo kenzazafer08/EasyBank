@@ -22,12 +22,8 @@ public class Main {
 
         Account account = new Account();
         AccountI accountDAO = new AccountDAO(dbConnection);
-
         SavingAccount savingAccount = new SavingAccount();
-        AccountI<SavingAccount> savingAccountDAO = new SavingAcountDAO(dbConnection);
-
         CurrentAccount currentAccount = new CurrentAccount();
-        AccountI<CurrentAccount> currentAccountDAO = new CurrentAccountDAO(dbConnection);
 
         while (true) {
             System.out.println("Choose an option:");
@@ -152,33 +148,30 @@ public class Main {
                     int c = helper.getInputAsInt(scanner);
                     switch (c){
                         case 1 :
-                            account = accountDAO.add(account);
+                            currentAccount.setSold(account.getSold());
+                            currentAccount.setClient(account.getClient());
+                            currentAccount.setEmployee(account.getEmployee());
+                            System.out.println("Enter the account overdraft :");
+                            currentAccount.setOverdraft(scanner.nextDouble());
+                            account = accountDAO.add(currentAccount);
                             if(account == null){
                                 System.out.println("Something went wrong !");
                             }else{
-                                currentAccount.setNumber(account.getNumber());
-                                System.out.println("Enter the account overdraft :");
-                                currentAccount.setOverdraft(scanner.nextDouble());
-                                if(currentAccountDAO.add(currentAccount) == null){
-                                    System.out.println("Something went wrong !");
-                                }else{
-                                    System.out.println("Your current account created successfully here is you account number : "+account.getNumber());
-                                }
+                                System.out.println("Your current account created successfully here is you account number : "+account.getNumber());
                             }
                             break;
                         case 2 :
-                            account = accountDAO.add(account);
+                            System.out.println(account);
+                            savingAccount.setSold(account.getSold());
+                            savingAccount.setClient(account.getClient());
+                            savingAccount.setEmployee(account.getEmployee());
+                            System.out.println("Enter the Interest rate :");
+                            savingAccount.setInterestRate(scanner.nextDouble());
+                            account = accountDAO.add(savingAccount);
                             if(account == null){
                                 System.out.println("Something went wrong !");
                             }else{
-                                savingAccount.setNumber(account.getNumber());
-                                System.out.println("Enter the account interest rate :");
-                                savingAccount.setInterestRate(scanner.nextDouble());
-                                if(savingAccountDAO.add(savingAccount) == null){
-                                    System.out.println("Something went wrong !");
-                                }else{
-                                    System.out.println("Your saving account created successfully here is you account number : "+account.getNumber());
-                                }
+                                System.out.println("Your current account created successfully here is you account number : "+account.getNumber());
                             }
                             break;
                         default:

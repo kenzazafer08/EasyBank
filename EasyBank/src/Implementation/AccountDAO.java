@@ -39,7 +39,26 @@ public class AccountDAO implements AccountI {
                 // Execute the insert statement
                 stmt.executeUpdate();
 
-                    return account;
+                // Insert into the specific account type table (currentaccount or savingaccount)
+                if (account instanceof CurrentAccount) {
+                    CurrentAccount currentAccount = (CurrentAccount) account;
+                    String insertCurrentAccountSQL = "INSERT INTO currentaccount (account_number, overdraft) VALUES (?, ?)";
+                    try (PreparedStatement currentAccountStmt = conn.prepareStatement(insertCurrentAccountSQL)) {
+                        currentAccountStmt.setString(1, currentAccount.getNumber());
+                        currentAccountStmt.setDouble(2, currentAccount.getOverdraft());
+                        currentAccountStmt.executeUpdate();
+                    }
+                } else if (account instanceof SavingAccount) {
+                    SavingAccount savingAccount = (SavingAccount) account;
+                    String insertSavingAccountSQL = "INSERT INTO savingaccount (account_number, interest_rate) VALUES (?, ?)";
+                    try (PreparedStatement savingAccountStmt = conn.prepareStatement(insertSavingAccountSQL)) {
+                        savingAccountStmt.setString(1, savingAccount.getNumber());
+                        savingAccountStmt.setDouble(2, savingAccount.getInterestRate());
+                        savingAccountStmt.executeUpdate();
+                    }
+                }
+
+                return account;
             }
         } catch (SQLException e) {
             // Handle any SQL errors here
