@@ -62,6 +62,7 @@ public class Main {
             System.out.println("21. Delete affectation");
             System.out.println("22. Update employee");
             System.out.println("23. Update client");
+            System.out.println("24. Search for account by operation");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -483,6 +484,29 @@ public class Main {
                             System.out.println("Something went wrong");
                         }else{
                             System.out.println("Client updated successfully");
+                        }
+                    }
+                    break;
+                case 24 :
+                    System.out.println("Search for an account by operation :");
+                    System.out.println("Enter the operation code :");
+                    account = accountDAO.searchByOperationN(scanner.nextLine());
+                    System.out.println();
+                    if(account == null){
+                        System.out.println("Something went wrong");
+                    }else{
+                        System.out.println("Account Number: " + account.getNumber());
+                        System.out.println("Account Balance: " + account.getSold());
+                        System.out.println("Account manager: " + account.getEmployee().getFirstName() + " " + account.getEmployee().getLastName());
+                        System.out.println("Client: "+ account.getClient().getCode() + " " + account.getClient().getLastName() + " " + account.getClient().getFirstName());
+                        if (account instanceof SavingAccount) {
+                            SavingAccount savingA = (SavingAccount) account;
+                            System.out.println("Account Type: Saving Account");
+                            System.out.println("Interest Rate: " + savingA.getInterestRate());
+                        } else if (account instanceof CurrentAccount) {
+                            CurrentAccount currentA = (CurrentAccount) account;
+                            System.out.println("Account Type: Current Account");
+                            System.out.println("Overdraft Limit: " + currentA.getOverdraft());
                         }
                     }
                     break;

@@ -13,5 +13,5 @@ public interface AccountI {
     Account updateStatus(String id);
     List<Account> showList();
     Account getByNumber(String accountNumber);
-    List<Account> searchByOperationN();
+    Account searchByOperationN(String n);
 }
