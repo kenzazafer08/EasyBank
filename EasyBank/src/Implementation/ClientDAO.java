@@ -70,7 +70,7 @@ public class ClientDAO implements ClientI {
     public Client searchByCode(String code) {
         String sql = "SELECT c.*, p.* FROM client c " +
                 "INNER JOIN person p ON c.person_id = p.id " +
-                "WHERE c.code = ? And deleted = false";
+                "WHERE c.code = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 

@@ -49,7 +49,8 @@ public class Main {
             System.out.println("14. Delete mission");
             System.out.println("15. Display employees list");
             System.out.println("16. Display clients list");
-            System.out.println("17. Deactivate an account");
+            System.out.println("17. Display accounts list");
+            System.out.println("18. Deactivate an account");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -132,7 +133,7 @@ public class Main {
                     System.out.println("Search for a client :");
                     System.out.println("Enter the code of the client :");
                     client = clientDAO.searchByCode(scanner.nextLine());
-                    if(client == null){
+                    if(client == null || client.getDeleted()){
                         System.out.println("No client found !");
                     }else{
                         System.out.println("Client " +client.getCode() +":");
@@ -338,6 +339,28 @@ public class Main {
                     }
                     break;
                 case 17 :
+                    System.out.println("Display accounts list :");
+                    System.out.println();
+                    List<Account> listAccounts = accountDAO.showList();
+                    for (Account as : listAccounts) {
+                        System.out.println("Account Number: " + as.getNumber());
+                        System.out.println("Account Balance: " + as.getSold());
+                        System.out.println("Account manager: " + as.getEmployee().getFirstName() + " " + as.getEmployee().getLastName());
+                        System.out.println("Client : " + as.getClient().getCode() + " " + as.getClient().getFirstName() + " "+ as.getClient().getLastName());
+                        if (as instanceof SavingAccount) {
+                            SavingAccount savingA = (SavingAccount) as;
+                            System.out.println("Account Type: Saving Account");
+                            System.out.println("Interest Rate: " + savingA.getInterestRate());
+                        } else if (as instanceof CurrentAccount) {
+                            CurrentAccount currentA = (CurrentAccount) as;
+                            System.out.println("Account Type: Current Account");
+                            System.out.println("Overdraft Limit: " + currentA.getOverdraft());
+                        }
+                        System.out.println("Status: "+as.getState());
+                        System.out.println();
+                    }
+                    break;
+                case 18 :
                     System.out.println("Deactivate an account");
                     System.out.println("Enter the number of the account");
                     if(accountDAO.updateStatus(scanner.nextLine())==null){
