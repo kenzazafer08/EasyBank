@@ -47,6 +47,7 @@ public class Main {
             System.out.println("12. Search for an operation");
             System.out.println("13. Add mission");
             System.out.println("14. Delete mission");
+            System.out.println("15. Display employees list");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -301,7 +302,23 @@ public class Main {
                         System.out.println("Mission deleted successfully");
                     }
                     break;
-
+                case 15 :
+                    System.out.println("Employees List :");
+                    System.out.println();
+                    List<Employee> employees = employeeDAO.showList();
+                    for(Employee e : employees){
+                        if(!e.getDeleted()){
+                            System.out.println();
+                            System.out.println("Employee " +e.getNumber() +":");
+                            System.out.println("First Name : " +e.getFirstName());
+                            System.out.println("Last Name : " +e.getLastName());
+                            System.out.println("Phone number : "+e.getPhone());
+                            System.out.println("Email : "+e.getEmail());
+                            System.out.println("Address : "+e.getAddress());
+                            System.out.println();
+                        }
+                    }
+                    break;
                 case 0:
                     try {
                         dbConnection.closeConnection();

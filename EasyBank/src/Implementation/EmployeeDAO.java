@@ -5,6 +5,7 @@ import helpers.DBconnection;
 import interfaces.EmployeeI;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -117,9 +118,36 @@ public class EmployeeDAO implements EmployeeI {
             throw new RuntimeException(e);
         }
     }
-        @Override
+    @Override
     public List<Employee> showList() {
-        return null;
+        List<Employee> employeeList = new ArrayList<>();
+
+        try (Connection connection = dbConnection.getConnection()) {
+            String query = "SELECT e.*, p.*" +
+                    "FROM employee AS e " +
+                    "INNER JOIN person AS p ON e.person_id = p.id";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    Employee employee = new Employee();
+                    employee.setNumber(resultSet.getString("number"));
+                    employee.setFirstName(resultSet.getString("first_name"));
+                    employee.setLastName(resultSet.getString("last_name"));
+                    employee.setPhone(resultSet.getString("phone"));
+                    employee.setEmail(resultSet.getString("email"));
+                    employee.setAddress(resultSet.getString("address"));
+                    employee.setDeleted(resultSet.getBoolean("deleted"));
+                    employeeList.add(employee);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+
+        return employeeList;
     }
 
     @Override
