@@ -3,7 +3,7 @@ package dto;
 import java.util.Date;
 
 public abstract class Person {
-
+    protected int id;
     protected String firstName;
     protected String lastName;
     protected String phone;
@@ -28,6 +28,13 @@ public abstract class Person {
         this.address = address;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFirstName() {
         return firstName;

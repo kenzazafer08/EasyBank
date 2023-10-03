@@ -60,6 +60,7 @@ public class Main {
             System.out.println("19. Display missions list");
             System.out.println("20. Add affectation");
             System.out.println("21. Delete affectation");
+            System.out.print("22. Update employee");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -434,6 +435,31 @@ public class Main {
                         System.out.println("Affectation deleted successfully");
                     }else{
                         System.out.println("Something went wrong");
+                    }
+                    break;
+                case 22 :
+                    System.out.println("Update an employee");
+                    System.out.println("Enter the number of the employee you wont to update :");
+                    employee = employeeDAO.searchByMatricul(scanner.nextLine());
+                    if(employee==null || employee.getDeleted()){
+                        System.out.println("No employee found !");
+                    }else{
+                        System.out.println("Enter updated information for the employee:");
+                        System.out.print("First Name: ");
+                        employee.setFirstName(scanner.nextLine());
+                        System.out.print("Last Name: ");
+                        employee.setLastName(scanner.nextLine());
+                        System.out.print("Phone: ");
+                        employee.setPhone(scanner.nextLine());
+                        System.out.print("Address: ");
+                        employee.setAddress(scanner.nextLine());
+                        System.out.print("Email: ");
+                        employee.setEmail(scanner.nextLine());
+                        if(employeeDAO.update(employee) == null ){
+                            System.out.println("Something went wrong");
+                        }else{
+                            System.out.println("Employee updated successfully");
+                        }
                     }
                     break;
                 case 0:

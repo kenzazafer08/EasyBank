@@ -83,6 +83,7 @@ public class ClientDAO implements ClientI {
                     client.setLastName(resultSet.getString("last_name"));
                     client.setPhone(resultSet.getString("phone"));
                     client.setAddress(resultSet.getString("address"));
+                    client.setId(resultSet.getInt("person_id"));
                     return client;
                 }
             }
