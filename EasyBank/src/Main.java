@@ -48,6 +48,7 @@ public class Main {
             System.out.println("13. Add mission");
             System.out.println("14. Delete mission");
             System.out.println("15. Display employees list");
+            System.out.println("16. Display clients list");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -315,6 +316,22 @@ public class Main {
                             System.out.println("Phone number : "+e.getPhone());
                             System.out.println("Email : "+e.getEmail());
                             System.out.println("Address : "+e.getAddress());
+                            System.out.println();
+                        }
+                    }
+                    break;
+                case 16 :
+                    System.out.println("Employees List :");
+                    System.out.println();
+                    List<Client> clients = clientDAO.showList();
+                    for(Client clt : clients){
+                        if(!clt.getDeleted()){
+                            System.out.println();
+                            System.out.println("Client " +clt.getCode() +":");
+                            System.out.println("First Name : " +clt.getFirstName());
+                            System.out.println("Last Name : " +clt.getLastName());
+                            System.out.println("Phone number : "+clt.getPhone());
+                            System.out.println("Address : "+clt.getAddress());
                             System.out.println();
                         }
                     }

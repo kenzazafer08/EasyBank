@@ -7,6 +7,8 @@ import interfaces.ClientI;
 
 import java.sql.*;
 import java.util.List;
+import java.util.ArrayList;
+
 
 public class ClientDAO implements ClientI {
     private DBconnection dbConnection;
@@ -116,7 +118,33 @@ public class ClientDAO implements ClientI {
 
     @Override
     public List<Client> showList() {
-        return null;
+        List<Client> clientList = new ArrayList<>();
+
+        try (Connection connection = dbConnection.getConnection()) {
+            String query = "SELECT c.*, p.*" +
+                    "FROM client AS c " +
+                    "INNER JOIN person AS p ON c.person_id = p.id";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    Client client = new Client();
+                    client.setCode(resultSet.getString("code"));
+                    client.setFirstName(resultSet.getString("first_name"));
+                    client.setLastName(resultSet.getString("last_name"));
+                    client.setPhone(resultSet.getString("phone"));
+                    client.setAddress(resultSet.getString("address"));
+                    client.setDeleted(resultSet.getBoolean("deleted"));
+                    clientList.add(client);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+
+        return clientList;
     }
 
     @Override

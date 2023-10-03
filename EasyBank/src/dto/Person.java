@@ -8,6 +8,16 @@ public abstract class Person {
     protected String lastName;
     protected String phone;
     protected String address;
+    private Boolean deleted;
+
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public Person() {
     }
 
