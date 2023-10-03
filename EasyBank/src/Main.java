@@ -399,8 +399,8 @@ public class Main {
                     String dateInput = scanner.nextLine();
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     try {
-                       Date date = dateFormat.parse(dateInput);
-                       affectation.setStartDate(date);
+                        Date date = dateFormat.parse(dateInput);
+                        affectation.setStartDate(date);
                     } catch (ParseException e) {
                         throw new RuntimeException(e);
                     }
