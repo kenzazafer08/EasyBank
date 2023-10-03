@@ -59,6 +59,7 @@ public class Main {
             System.out.println("18. Deactivate an account");
             System.out.println("19. Display missions list");
             System.out.println("20. Add affectation");
+            System.out.println("21. Delete affectation");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -424,6 +425,16 @@ public class Main {
                         System.out.println("Affectation created successfully");
                     }
 
+                    break;
+                case 21 :
+                    System.out.println("Delete affectation");
+                    System.out.println("Enter the id of the affectation");
+                    int id = helper.getInputAsInt(scanner);
+                    if(affectationDAO.deleteAffectation(id)){
+                        System.out.println("Affectation deleted successfully");
+                    }else{
+                        System.out.println("Something went wrong");
+                    }
                     break;
                 case 0:
                     try {

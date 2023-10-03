@@ -40,6 +40,23 @@ public class AffectationDAO implements AffectationI {
 
     @Override
     public boolean deleteAffectation(int id) {
-        return false;
+        try (Connection connection = dbConnection.getConnection()) {
+            String deleteAffectationSQL = "DELETE FROM affectation WHERE id = ?";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(deleteAffectationSQL)) {
+                preparedStatement.setInt(1, id);
+
+                int affectedRows = preparedStatement.executeUpdate();
+
+                if (affectedRows > 0) {
+                    return true; // Deletion successful
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+
+        return false; // Affectation with the specified ID was not found or deletion failed
     }
 }
