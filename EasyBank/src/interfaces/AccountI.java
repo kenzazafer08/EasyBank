@@ -2,7 +2,6 @@ package interfaces;
 
 import dto.Account;
 import dto.Client;
-import dto.CurrentAccount;
 
 import java.util.List;
 

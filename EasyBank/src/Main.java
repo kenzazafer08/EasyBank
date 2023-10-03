@@ -63,6 +63,7 @@ public class Main {
             System.out.println("22. Update employee");
             System.out.println("23. Update client");
             System.out.println("24. Search for account by operation");
+            System.out.println("25. Display affectation list");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -507,6 +508,28 @@ public class Main {
                             CurrentAccount currentA = (CurrentAccount) account;
                             System.out.println("Account Type: Current Account");
                             System.out.println("Overdraft Limit: " + currentA.getOverdraft());
+                        }
+                    }
+                    break;
+                case 25 :
+                    System.out.println("Affectation list :");
+                    List<Affectation> affectations = affectationDAO.affectationsList();
+                    if(affectations.isEmpty()){
+                        System.out.println("No affectation found !");
+                    }else{
+                        for (Affectation af : affectations) {
+                            System.out.println("Start Date: " + af.getStartDate());
+                            System.out.println("End Date: " + af.getEndDate());
+
+                            Employee em = affectation.getEmployee();
+                            System.out.println("Employee Name: " + em.getFirstName() + " " + em.getLastName());
+                            System.out.println("Employee Number: " + em.getNumber());
+
+                            Mission mi = affectation.getMission();
+                            System.out.println("Mission Name: " + mi.getName());
+                            System.out.println("Mission Code: " + mi.getCode());
+                            System.out.println("Mission Description: " + mi.getDescription());
+                            System.out.println();
                         }
                     }
                     break;
