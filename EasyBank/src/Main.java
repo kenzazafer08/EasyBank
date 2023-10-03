@@ -51,6 +51,7 @@ public class Main {
             System.out.println("16. Display clients list");
             System.out.println("17. Display accounts list");
             System.out.println("18. Deactivate an account");
+            System.out.println("19. Display missions list");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -367,6 +368,17 @@ public class Main {
                         System.out.println("Something went wrong !");
                     }else{
                         System.out.println("Account deactivated successfully");
+                    }
+                    break;
+                case 19 :
+                    System.out.println("Missions list");
+                    System.out.println();
+                    List<Mission> missions = missionDAO.showList();
+                    for (Mission m : missions) {
+                        System.out.println("Code: " + m.getCode());
+                        System.out.println("Name: " + m.getName());
+                        System.out.println("Description: " + m.getDescription());
+                        System.out.println();
                     }
                     break;
                 case 0:

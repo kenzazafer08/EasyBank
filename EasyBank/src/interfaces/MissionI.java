@@ -10,5 +10,4 @@ public interface MissionI {
     boolean delete(String id);
     List<Mission> showList();
     List<Mission> missionHistory();
-    List<Mission> missionStatistics();
 }

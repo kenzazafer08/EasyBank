@@ -7,6 +7,7 @@ import interfaces.MissionI;
 
 import java.sql.Connection;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MissionDAO implements MissionI {
@@ -74,7 +75,29 @@ public class MissionDAO implements MissionI {
 
     @Override
     public List<Mission> showList() {
-        return null;
+        List<Mission> missionList = new ArrayList<>();
+
+        try (Connection connection = dbConnection.getConnection()) {
+            String query = "SELECT * FROM mission";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    Mission mission = new Mission();
+                    mission.setCode(resultSet.getString("code"));
+                    mission.setName(resultSet.getString("name"));
+                    mission.setDescription(resultSet.getString("description"));
+
+                    missionList.add(mission);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+
+        return missionList;
     }
 
     @Override
@@ -82,8 +105,4 @@ public class MissionDAO implements MissionI {
         return null;
     }
 
-    @Override
-    public List<Mission> missionStatistics() {
-        return null;
-    }
 }
