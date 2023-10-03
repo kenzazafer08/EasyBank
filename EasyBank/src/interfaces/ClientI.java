@@ -7,8 +7,7 @@ import java.util.List;
 public interface ClientI {
     Client add(Client client);
     Client searchByCode(String code);
-    boolean delete(int id);
+    boolean delete(String id);
     List<Client> showList();
-    List<Client> searchByPrenom();
-    Client update();
+    Client update(Client client);
 }

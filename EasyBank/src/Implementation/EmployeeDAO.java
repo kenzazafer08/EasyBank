@@ -5,6 +5,7 @@ import helpers.DBconnection;
 import interfaces.EmployeeI;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
@@ -67,7 +68,7 @@ public class EmployeeDAO implements EmployeeI {
     public Employee searchByMatricul(String matriculationNumber) {
         String sql = "SELECT e.*, p.* FROM employee e " +
                 "INNER JOIN person p ON e.person_id = p.id " +
-                "WHERE e.number = ?";
+                "WHERE e.number = ? ";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -81,6 +82,8 @@ public class EmployeeDAO implements EmployeeI {
                     employee.setPhone(resultSet.getString("phone"));
                     employee.setEmail(resultSet.getString("email"));
                     employee.setAddress(resultSet.getString("address"));
+                    employee.setDeleted(resultSet.getBoolean("deleted"));
+                    employee.setId(resultSet.getInt("person_id"));
                     // Set other employee attributes here
                     return employee;
                 }
@@ -93,22 +96,101 @@ public class EmployeeDAO implements EmployeeI {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
-    }
+    public boolean delete(String id) {
+        String sql = "UPDATE employee SET deleted = ? WHERE number = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            // Create a PreparedStatement with the query
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
+            // Set the "deleted" attribute to true (1)
+            preparedStatement.setBoolean(1, true);
+
+            // Set the employee ID in the query
+            preparedStatement.setString(2, id);
+
+            // Execute the query
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                return true; // Soft delete successful
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @Override
     public List<Employee> showList() {
-        return null;
+        List<Employee> employeeList = new ArrayList<>();
+
+        try (Connection connection = dbConnection.getConnection()) {
+            String query = "SELECT e.*, p.*" +
+                    "FROM employee AS e " +
+                    "INNER JOIN person AS p ON e.person_id = p.id";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    Employee employee = new Employee();
+                    employee.setNumber(resultSet.getString("number"));
+                    employee.setFirstName(resultSet.getString("first_name"));
+                    employee.setLastName(resultSet.getString("last_name"));
+                    employee.setPhone(resultSet.getString("phone"));
+                    employee.setEmail(resultSet.getString("email"));
+                    employee.setAddress(resultSet.getString("address"));
+                    employee.setDeleted(resultSet.getBoolean("deleted"));
+                    employeeList.add(employee);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+
+        return employeeList;
     }
 
     @Override
-    public List<Employee> searchByDateR() {
-        return null;
-    }
+    public Employee update(Employee updatedEmployee) {
+        Connection connection = dbConnection.getConnection();
+        String updatePersonQuery = "UPDATE person SET first_name = ?, last_name = ?, phone = ?, address = ? WHERE id = ?";
 
-    @Override
-    public Employee update() {
-        return null;
+        String updateEmployeeQuery = "UPDATE employee SET recruitment_date = ?, email = ? WHERE number = ?";
+
+        try {
+            Employee employeeId = searchByMatricul(updatedEmployee.getNumber());
+
+            if (employeeId == null) {
+                return null;
+            }
+
+            // Update the Person record using the person_id associated with the employee
+            PreparedStatement personStatement = connection.prepareStatement(updatePersonQuery);
+            personStatement.setString(1, updatedEmployee.getFirstName());
+            personStatement.setString(2, updatedEmployee.getLastName());
+            personStatement.setString(3, updatedEmployee.getPhone());
+            personStatement.setString(4, updatedEmployee.getAddress());
+            personStatement.setInt(5, updatedEmployee.getId());
+
+            int rowsUpdatedPerson = personStatement.executeUpdate();
+
+            // Update the Employee record using the retrieved employee ID
+            PreparedStatement employeeStatement = connection.prepareStatement(updateEmployeeQuery);
+            employeeStatement.setDate(1, new java.sql.Date(Date.valueOf(LocalDate.now()).getTime()));
+            employeeStatement.setString(2, updatedEmployee.getEmail());
+            employeeStatement.setString(3, updatedEmployee.getNumber()); // Use the retrieved employee ID
+
+            int rowsUpdatedEmployee = employeeStatement.executeUpdate();
+
+            if (rowsUpdatedPerson > 0 && rowsUpdatedEmployee > 0) {
+                return updatedEmployee;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating employee: " + e.getMessage());
+            return null;
+        }
     }
 }

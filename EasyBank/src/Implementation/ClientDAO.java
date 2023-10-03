@@ -1,12 +1,16 @@
 package Implementation;
 
 import dto.Client;
+import dto.Employee;
 import helpers.DBconnection;
 import helpers.helper;
 import interfaces.ClientI;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
+
 
 public class ClientDAO implements ClientI {
     private DBconnection dbConnection;
@@ -81,6 +85,8 @@ public class ClientDAO implements ClientI {
                     client.setLastName(resultSet.getString("last_name"));
                     client.setPhone(resultSet.getString("phone"));
                     client.setAddress(resultSet.getString("address"));
+                    client.setDeleted(resultSet.getBoolean("deleted"));
+                    client.setId(resultSet.getInt("person_id"));
                     return client;
                 }
             }
@@ -91,22 +97,90 @@ public class ClientDAO implements ClientI {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
-    }
+    public boolean delete(String id) {
+        String sql = "UPDATE client SET deleted = ? WHERE code = ?";
+        try (Connection connection = dbConnection.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            // Create a PreparedStatement with the query
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            // Set the "deleted" attribute to true (1)
+            preparedStatement.setBoolean(1, true);
+
+            // Set the employee ID in the query
+            preparedStatement.setString(2, id);
+
+            // Execute the query
+            int rowsUpdated = preparedStatement.executeUpdate();
+            if (rowsUpdated > 0) {
+                return true; // Soft delete successful
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }    }
 
     @Override
     public List<Client> showList() {
-        return null;
+        List<Client> clientList = new ArrayList<>();
+
+        try (Connection connection = dbConnection.getConnection()) {
+            String query = "SELECT c.*, p.*" +
+                    "FROM client AS c " +
+                    "INNER JOIN person AS p ON c.person_id = p.id";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    Client client = new Client();
+                    client.setCode(resultSet.getString("code"));
+                    client.setFirstName(resultSet.getString("first_name"));
+                    client.setLastName(resultSet.getString("last_name"));
+                    client.setPhone(resultSet.getString("phone"));
+                    client.setAddress(resultSet.getString("address"));
+                    client.setDeleted(resultSet.getBoolean("deleted"));
+                    clientList.add(client);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+
+        return clientList;
     }
 
     @Override
-    public List<Client> searchByPrenom() {
-        return null;
-    }
+    public Client update(Client client) {
+        Connection connection = dbConnection.getConnection();
+        String updatePersonQuery = "UPDATE person SET first_name = ?, last_name = ?, phone = ?, address = ? WHERE id = ?";
 
-    @Override
-    public Client update() {
-        return null;
+        try {
+            Client clientId = searchByCode(client.getCode());
+
+            if (clientId == null) {
+                return null;
+            }
+
+            // Update the Person record using the person_id associated with the employee
+            PreparedStatement personStatement = connection.prepareStatement(updatePersonQuery);
+            personStatement.setString(1, client.getFirstName());
+            personStatement.setString(2, client.getLastName());
+            personStatement.setString(3, client.getPhone());
+            personStatement.setString(4, client.getAddress());
+            personStatement.setInt(5, clientId.getId());
+
+            int rowsUpdatedPerson = personStatement.executeUpdate();
+
+            if (rowsUpdatedPerson > 0 ) {
+                return client;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating client: " + e.getMessage());
+            return null;
+        }
     }
 }
