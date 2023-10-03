@@ -10,10 +10,8 @@ public interface AccountI {
     Account add(Account account);
     List<Account> searchByClient(Client client);
     boolean delete(String id);
-    Account updateStatus();
-    List<Account> filterByStatus();
+    Account updateStatus(String id);
     List<Account> showList();
-    List<Account> filterByDCreation();
     Account getByNumber(String accountNumber);
     Account update(Account account);
     List<Account> searchByOperationN();

@@ -9,6 +9,5 @@ public interface ClientI {
     Client searchByCode(String code);
     boolean delete(String id);
     List<Client> showList();
-    List<Client> searchByPrenom();
     Client update();
 }

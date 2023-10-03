@@ -148,11 +148,6 @@ public class ClientDAO implements ClientI {
     }
 
     @Override
-    public List<Client> searchByPrenom() {
-        return null;
-    }
-
-    @Override
     public Client update() {
         return null;
     }

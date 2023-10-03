@@ -10,6 +10,5 @@ public interface EmployeeI {
     Employee searchByMatricul(String matriculationNumber);
     boolean delete(String id);
     List<Employee> showList();
-    List<Employee> searchByDateR();
     Employee update();
 }

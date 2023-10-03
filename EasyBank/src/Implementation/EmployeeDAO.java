@@ -151,11 +151,6 @@ public class EmployeeDAO implements EmployeeI {
     }
 
     @Override
-    public List<Employee> searchByDateR() {
-        return null;
-    }
-
-    @Override
     public Employee update() {
         return null;
     }

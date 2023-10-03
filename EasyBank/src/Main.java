@@ -49,6 +49,7 @@ public class Main {
             System.out.println("14. Delete mission");
             System.out.println("15. Display employees list");
             System.out.println("16. Display clients list");
+            System.out.println("17. Deactivate an account");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -334,6 +335,15 @@ public class Main {
                             System.out.println("Address : "+clt.getAddress());
                             System.out.println();
                         }
+                    }
+                    break;
+                case 17 :
+                    System.out.println("Deactivate an account");
+                    System.out.println("Enter the number of the account");
+                    if(accountDAO.updateStatus(scanner.nextLine())==null){
+                        System.out.println("Something went wrong !");
+                    }else{
+                        System.out.println("Account deactivated successfully");
                     }
                     break;
                 case 0:

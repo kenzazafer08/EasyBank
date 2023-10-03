@@ -160,12 +160,24 @@ public class AccountDAO implements AccountI {
     }
 
     @Override
-    public Account updateStatus() {
-        return null;
-    }
+    public Account updateStatus(String id) {
+        try (Connection connection = dbConnection.getConnection()) {
+            String updateAccountSQL = "UPDATE account SET state = 'inactive' WHERE number = ?";
 
-    @Override
-    public List<Account> filterByStatus() {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateAccountSQL)) {
+                preparedStatement.setString(1, id);
+
+                int rowCount = preparedStatement.executeUpdate();
+
+                if (rowCount > 0) {
+                    return getByNumber(id); // Assuming you have a getByNumber method
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle exceptions appropriately
+        }
+
         return null;
     }
 
@@ -174,10 +186,6 @@ public class AccountDAO implements AccountI {
         return null;
     }
 
-    @Override
-    public List<Account> filterByDCreation() {
-        return null;
-    }
 
     @Override
     public List<Account> searchByOperationN() {
