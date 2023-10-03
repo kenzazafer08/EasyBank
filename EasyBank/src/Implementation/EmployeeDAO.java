@@ -26,7 +26,6 @@ public class EmployeeDAO implements EmployeeI {
                 "VALUES (?, ?, ?, ?)";
 
         try {
-            // Insert the Person record and retrieve the generated ID
             PreparedStatement personStatement = connection.prepareStatement(insertPersonQuery, Statement.RETURN_GENERATED_KEYS);
             personStatement.setString(1, employee.getFirstName());
             personStatement.setString(2, employee.getLastName());
@@ -42,7 +41,6 @@ public class EmployeeDAO implements EmployeeI {
             ResultSet generatedKeys = personStatement.getGeneratedKeys();
             if (generatedKeys.next()) {
                 int personId = generatedKeys.getInt(1); // Get the generated person_id
-                // Insert the Employee record with the person_id
                 PreparedStatement employeeStatement = connection.prepareStatement(insertEmployeeQuery);
                 employeeStatement.setString(1, employee.getNumber());
                 employeeStatement.setDate(2, new java.sql.Date(Date.valueOf(LocalDate.now()).getTime()));
@@ -83,7 +81,6 @@ public class EmployeeDAO implements EmployeeI {
                     employee.setEmail(resultSet.getString("email"));
                     employee.setAddress(resultSet.getString("address"));
                     employee.setDeleted(resultSet.getBoolean("deleted"));
-                    // Set other employee attributes here
                     return employee;
                 }
             }
@@ -99,13 +96,10 @@ public class EmployeeDAO implements EmployeeI {
         String sql = "UPDATE employee SET deleted = ? WHERE number = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            // Create a PreparedStatement with the query
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            // Set the "deleted" attribute to true (1)
             preparedStatement.setBoolean(1, true);
 
-            // Set the employee ID in the query
             preparedStatement.setString(2, id);
 
             // Execute the query

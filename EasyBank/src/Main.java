@@ -60,6 +60,7 @@ public class Main {
             System.out.println("19. Display missions list");
             System.out.println("20. Add affectation");
             System.out.println("21. Delete affectation");
+            System.out.println("22. Update an employee");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 

@@ -97,16 +97,12 @@ public class ClientDAO implements ClientI {
         String sql = "UPDATE client SET deleted = ? WHERE code = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            // Create a PreparedStatement with the query
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            // Set the "deleted" attribute to true (1)
             preparedStatement.setBoolean(1, true);
 
-            // Set the employee ID in the query
             preparedStatement.setString(2, id);
 
-            // Execute the query
             int rowsUpdated = preparedStatement.executeUpdate();
             if (rowsUpdated > 0) {
                 return true; // Soft delete successful

@@ -26,7 +26,6 @@ public class OperationDAO implements OperationI {
         Connection conn = dbConnection.getConnection();
         try {
 
-            // Check if the account exists
             AccountI accountDAO = new AccountDAO(dbConnection);
             Account account = accountDAO.getByNumber(operation.getAccount().getNumber());
 
@@ -34,7 +33,6 @@ public class OperationDAO implements OperationI {
                 return null;
             }
 
-            // Check if the operation type is "payment" and if there's sufficient balance
             if (operation.getType() == Operation.Type.payment) {
                 double amount = operation.getAmount();
                 if (amount <= 0) {
@@ -124,7 +122,6 @@ public class OperationDAO implements OperationI {
     public boolean delete(String id) {
         Connection conn = dbConnection.getConnection();
         try {
-            // Create a SQL DELETE query to delete the operation by its ID
             String deleteOperationSQL = "DELETE FROM operation WHERE number = ?";
 
             try (PreparedStatement stmt = conn.prepareStatement(deleteOperationSQL)) {

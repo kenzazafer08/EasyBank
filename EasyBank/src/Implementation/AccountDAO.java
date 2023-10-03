@@ -24,7 +24,6 @@ public class AccountDAO implements AccountI {
     public Account add(Account account) {
         Connection conn = dbConnection.getConnection();
         try {
-            // First, insert the account into the "account" table
             String insertAccountSQL = "INSERT INTO account (number, sold, creation_date, state, client_code, employe_number) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(insertAccountSQL, Statement.RETURN_GENERATED_KEYS)) {
                 String number = helper.generateClientCode(10);
@@ -36,10 +35,8 @@ public class AccountDAO implements AccountI {
                 stmt.setString(5, account.getClient().getCode());
                 stmt.setString(6, account.getEmployee().getNumber());
 
-                // Execute the insert statement
                 stmt.executeUpdate();
 
-                // Insert into the specific account type table (currentaccount or savingaccount)
                 if (account instanceof CurrentAccount) {
                     CurrentAccount currentAccount = (CurrentAccount) account;
                     String insertCurrentAccountSQL = "INSERT INTO currentaccount (account_number, overdraft) VALUES (?, ?)";
@@ -139,16 +136,12 @@ public class AccountDAO implements AccountI {
         String sql = "UPDATE account SET deleted = ? WHERE number = ?";
         try (Connection connection = dbConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            // Create a PreparedStatement with the query
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            // Set the "deleted" attribute to true (1)
             preparedStatement.setBoolean(1, true);
 
-            // Set the employee ID in the query
             preparedStatement.setString(2, id);
 
-            // Execute the query
             int rowsUpdated = preparedStatement.executeUpdate();
             if (rowsUpdated > 0) {
                 return true; // Soft delete successful
@@ -170,7 +163,7 @@ public class AccountDAO implements AccountI {
                 int rowCount = preparedStatement.executeUpdate();
 
                 if (rowCount > 0) {
-                    return getByNumber(id); // Assuming you have a getByNumber method
+                    return getByNumber(id);
                 }
             }
         } catch (SQLException e) {
