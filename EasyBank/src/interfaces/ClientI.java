@@ -9,5 +9,5 @@ public interface ClientI {
     Client searchByCode(String code);
     boolean delete(String id);
     List<Client> showList();
-    Client update();
+    Client update(Client client);
 }

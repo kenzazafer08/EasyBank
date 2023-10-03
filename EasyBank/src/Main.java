@@ -60,7 +60,9 @@ public class Main {
             System.out.println("19. Display missions list");
             System.out.println("20. Add affectation");
             System.out.println("21. Delete affectation");
-            System.out.println("22. Update an employee");
+            System.out.println("22. Update employee");
+            System.out.println("23. Update client");
+            System.out.println("24. Search for account by operation");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -435,6 +437,77 @@ public class Main {
                         System.out.println("Affectation deleted successfully");
                     }else{
                         System.out.println("Something went wrong");
+                    }
+                    break;
+                case 22 :
+                    System.out.println("Update an employee");
+                    System.out.println("Enter the number of the employee you wont to update :");
+                    employee = employeeDAO.searchByMatricul(scanner.nextLine());
+                    if(employee==null || employee.getDeleted()){
+                        System.out.println("No employee found !");
+                    }else{
+                        System.out.println("Enter updated information for the employee:");
+                        System.out.print("First Name: ");
+                        employee.setFirstName(scanner.nextLine());
+                        System.out.print("Last Name: ");
+                        employee.setLastName(scanner.nextLine());
+                        System.out.print("Phone: ");
+                        employee.setPhone(scanner.nextLine());
+                        System.out.print("Address: ");
+                        employee.setAddress(scanner.nextLine());
+                        System.out.print("Email: ");
+                        employee.setEmail(scanner.nextLine());
+                        if(employeeDAO.update(employee) == null ){
+                            System.out.println("Something went wrong");
+                        }else{
+                            System.out.println("Employee updated successfully");
+                        }
+                    }
+                    break;
+                case 23 :
+                    System.out.println("Update a client");
+                    System.out.println("Enter the code of the client you wont to update :");
+                    client = clientDAO.searchByCode(scanner.nextLine());
+                    if(client==null || client.getDeleted()){
+                        System.out.println("No client found !");
+                    }else{
+                        System.out.println("Enter updated information for the client:");
+                        System.out.print("First Name: ");
+                        client.setFirstName(scanner.nextLine());
+                        System.out.print("Last Name: ");
+                        client.setLastName(scanner.nextLine());
+                        System.out.print("Phone: ");
+                        client.setPhone(scanner.nextLine());
+                        System.out.print("Address: ");
+                        client.setAddress(scanner.nextLine());
+                        if(clientDAO.update(client) == null ){
+                            System.out.println("Something went wrong");
+                        }else{
+                            System.out.println("Client updated successfully");
+                        }
+                    }
+                    break;
+                case 24 :
+                    System.out.println("Search for an account by operation :");
+                    System.out.println("Enter the operation code :");
+                    account = accountDAO.searchByOperationN(scanner.nextLine());
+                    System.out.println();
+                    if(account == null){
+                        System.out.println("Something went wrong");
+                    }else{
+                        System.out.println("Account Number: " + account.getNumber());
+                        System.out.println("Account Balance: " + account.getSold());
+                        System.out.println("Account manager: " + account.getEmployee().getFirstName() + " " + account.getEmployee().getLastName());
+                        System.out.println("Client: "+ account.getClient().getCode() + " " + account.getClient().getLastName() + " " + account.getClient().getFirstName());
+                        if (account instanceof SavingAccount) {
+                            SavingAccount savingA = (SavingAccount) account;
+                            System.out.println("Account Type: Saving Account");
+                            System.out.println("Interest Rate: " + savingA.getInterestRate());
+                        } else if (account instanceof CurrentAccount) {
+                            CurrentAccount currentA = (CurrentAccount) account;
+                            System.out.println("Account Type: Current Account");
+                            System.out.println("Overdraft Limit: " + currentA.getOverdraft());
+                        }
                     }
                     break;
                 case 0:

@@ -81,6 +81,7 @@ public class EmployeeDAO implements EmployeeI {
                     employee.setEmail(resultSet.getString("email"));
                     employee.setAddress(resultSet.getString("address"));
                     employee.setDeleted(resultSet.getBoolean("deleted"));
+                    employee.setId(resultSet.getInt("person_id"));
                     return employee;
                 }
             }
@@ -145,7 +146,45 @@ public class EmployeeDAO implements EmployeeI {
     }
 
     @Override
-    public Employee update() {
-        return null;
+    public Employee update(Employee updatedEmployee) {
+        Connection connection = dbConnection.getConnection();
+        String updatePersonQuery = "UPDATE person SET first_name = ?, last_name = ?, phone = ?, address = ? WHERE id = ?";
+
+        String updateEmployeeQuery = "UPDATE employee SET recruitment_date = ?, email = ? WHERE number = ?";
+
+        try {
+            Employee employeeId = searchByMatricul(updatedEmployee.getNumber());
+
+            if (employeeId == null) {
+                return null;
+            }
+
+            // Update the Person record using the person_id associated with the employee
+            PreparedStatement personStatement = connection.prepareStatement(updatePersonQuery);
+            personStatement.setString(1, updatedEmployee.getFirstName());
+            personStatement.setString(2, updatedEmployee.getLastName());
+            personStatement.setString(3, updatedEmployee.getPhone());
+            personStatement.setString(4, updatedEmployee.getAddress());
+            personStatement.setInt(5, updatedEmployee.getId());
+
+            int rowsUpdatedPerson = personStatement.executeUpdate();
+
+            // Update the Employee record using the retrieved employee ID
+            PreparedStatement employeeStatement = connection.prepareStatement(updateEmployeeQuery);
+            employeeStatement.setDate(1, new java.sql.Date(Date.valueOf(LocalDate.now()).getTime()));
+            employeeStatement.setString(2, updatedEmployee.getEmail());
+            employeeStatement.setString(3, updatedEmployee.getNumber()); // Use the retrieved employee ID
+
+            int rowsUpdatedEmployee = employeeStatement.executeUpdate();
+
+            if (rowsUpdatedPerson > 0 && rowsUpdatedEmployee > 0) {
+                return updatedEmployee;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating employee: " + e.getMessage());
+            return null;
+        }
     }
 }
