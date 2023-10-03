@@ -6,6 +6,9 @@ import interfaces.ClientI;
 import interfaces.*;
 
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,6 +34,9 @@ public class Main {
         Mission mission = new Mission();
         MissionI missionDAO = new MissionDAO(dbConnection);
 
+        Affectation affectation = new Affectation();
+        AffectationI affectationDAO = new AffectationDAO(dbConnection);
+
         while (true) {
             System.out.println("Choose an option:");
             System.out.println("1. Add an Employee");
@@ -52,6 +58,7 @@ public class Main {
             System.out.println("17. Display accounts list");
             System.out.println("18. Deactivate an account");
             System.out.println("19. Display missions list");
+            System.out.println("20. Add affectation");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -380,6 +387,43 @@ public class Main {
                         System.out.println("Description: " + m.getDescription());
                         System.out.println();
                     }
+                    break;
+                case 20 :
+                    System.out.println("Add affectation");
+                    System.out.println("Enter start date (yyyy-MM-dd):");
+                    String dateInput = scanner.nextLine();
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                       Date date = dateFormat.parse(dateInput);
+                       affectation.setStartDate(date);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    System.out.println("Enter end date (yyyy-MM-dd):");
+                    String enddateInput = scanner.nextLine();
+                    SimpleDateFormat enddateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    try {
+                        Date date = enddateFormat.parse(enddateInput);
+                        affectation.setEndDate(date);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                    System.out.println("Enter employee number:");
+                    employee.setNumber(scanner.nextLine());
+                    affectation.setEmployee(employee);
+
+                    System.out.println("Enter mission code:");
+                    mission.setCode(scanner.nextLine());
+                    affectation.setMission(mission);
+
+                    if(affectationDAO.createNewAffectation(affectation) == null){
+                        System.out.println("Something went wrong");
+                    }else{
+                        System.out.println("Affectation created successfully");
+                    }
+
                     break;
                 case 0:
                     try {
