@@ -320,9 +320,4 @@ public class AccountDAO implements AccountI {
 
         return null; // Account not found
     }
-    @Override
-    public Account update(Account account) {
-        return null;
-    }
-
 }

@@ -60,7 +60,8 @@ public class Main {
             System.out.println("19. Display missions list");
             System.out.println("20. Add affectation");
             System.out.println("21. Delete affectation");
-            System.out.print("22. Update employee");
+            System.out.println("22. Update employee");
+            System.out.println("23. Update client");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -459,6 +460,29 @@ public class Main {
                             System.out.println("Something went wrong");
                         }else{
                             System.out.println("Employee updated successfully");
+                        }
+                    }
+                    break;
+                case 23 :
+                    System.out.println("Update a client");
+                    System.out.println("Enter the code of the client you wont to update :");
+                    client = clientDAO.searchByCode(scanner.nextLine());
+                    if(client==null || client.getDeleted()){
+                        System.out.println("No client found !");
+                    }else{
+                        System.out.println("Enter updated information for the client:");
+                        System.out.print("First Name: ");
+                        client.setFirstName(scanner.nextLine());
+                        System.out.print("Last Name: ");
+                        client.setLastName(scanner.nextLine());
+                        System.out.print("Phone: ");
+                        client.setPhone(scanner.nextLine());
+                        System.out.print("Address: ");
+                        client.setAddress(scanner.nextLine());
+                        if(clientDAO.update(client) == null ){
+                            System.out.println("Something went wrong");
+                        }else{
+                            System.out.println("Client updated successfully");
                         }
                     }
                     break;

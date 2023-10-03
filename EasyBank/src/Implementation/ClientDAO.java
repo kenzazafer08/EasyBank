@@ -1,11 +1,13 @@
 package Implementation;
 
 import dto.Client;
+import dto.Employee;
 import helpers.DBconnection;
 import helpers.helper;
 import interfaces.ClientI;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -83,6 +85,7 @@ public class ClientDAO implements ClientI {
                     client.setLastName(resultSet.getString("last_name"));
                     client.setPhone(resultSet.getString("phone"));
                     client.setAddress(resultSet.getString("address"));
+                    client.setDeleted(resultSet.getBoolean("deleted"));
                     client.setId(resultSet.getInt("person_id"));
                     return client;
                 }
@@ -149,7 +152,35 @@ public class ClientDAO implements ClientI {
     }
 
     @Override
-    public Client update() {
-        return null;
+    public Client update(Client client) {
+        Connection connection = dbConnection.getConnection();
+        String updatePersonQuery = "UPDATE person SET first_name = ?, last_name = ?, phone = ?, address = ? WHERE id = ?";
+
+        try {
+            Client clientId = searchByCode(client.getCode());
+
+            if (clientId == null) {
+                return null;
+            }
+
+            // Update the Person record using the person_id associated with the employee
+            PreparedStatement personStatement = connection.prepareStatement(updatePersonQuery);
+            personStatement.setString(1, client.getFirstName());
+            personStatement.setString(2, client.getLastName());
+            personStatement.setString(3, client.getPhone());
+            personStatement.setString(4, client.getAddress());
+            personStatement.setInt(5, clientId.getId());
+
+            int rowsUpdatedPerson = personStatement.executeUpdate();
+
+            if (rowsUpdatedPerson > 0 ) {
+                return client;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating client: " + e.getMessage());
+            return null;
+        }
     }
 }
